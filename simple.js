@@ -3,9 +3,9 @@ const fs = require("fs");
 
 const doc = new PDFDocument({
   margins: {
-    // Allows you to set each margin individually
+    // Set each margin individually
     top: 72,
-    bottom: 36, // Set a specific bottom margin
+    bottom: 36, 
     left: 36,
     right: 36,
   },
@@ -1141,7 +1141,7 @@ for (let i = 0; i < data.length; i++) {
     doc.fillColor("#000000").text(rightText, xValueRight, yValue);
   } else {
     doc
-      .fillColor("#FF5733")
+      //.fillColor("#FF5733") // mark the line as red if it's too long
       .text(rightText, xValueRight, yValue)
       .fillColor("#000000");
   }
