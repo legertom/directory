@@ -14,10 +14,10 @@ This Node.js script generates a one-page directory in PDF format, designed to re
 
 ```bash
 # Clone the repository
-git clone [repository-url]
+git clone https://github.com/legertom/directory.git
 
 # Navigate to the repository directory
-cd [repository-name]
+cd directory
 
 # Install dependencies (PDFKit)
 npm install
@@ -30,13 +30,13 @@ npm install
 ```bash
 node simple.js
 ```
-1. The generated directory will be saved as output.pdf in the same directory.
+The generated directory will be saved as `output.pdf` in the same directory.
 
 ## Design Notes
 The design of this directory emphasizes clarity and efficiency in presenting information. Each entry is composed of three key elements: primary data, secondary data (such as the name of a person or the location of an office), and a contact number, which can be in various formats. 
 
 ### Leader Dots
-The use of leader dots plays a crucial role in enhancing readability. These dots guide the eye across the page, creating a visual bridge between the secondary data and the corresponding number. This feature is particularly useful in densely packed information, as it prevents the reader's eyes from straying to adjacent lines, thus making it easier to follow a line of text from start to finish. _N.B. The leader dots are ommited when the space available is less than 10 points wide.
+The use of leader dots plays a crucial role in enhancing readability. These dots guide the eye across the page, creating a visual bridge between the secondary data and the corresponding number. This feature is particularly useful in densely packed information, as it prevents the reader's eyes from straying to adjacent lines, thus making it easier to follow a line of text from start to finish. _N.B. The leader dots are ommited when the space available is less than 10 points wide._
 
 ### Typeface: Bell Centennial
 The choice of font is integral to the directory's design. Bell Centennial, designed by Matthew Carter in 1978 specifically for AT&T Corporation to commemorate their 100th anniversary, is employed here. This typeface was created to address the unique challenges of telephone book printing, ensuring __high legibility at small sizes__ and compatibility with high-speed, cathode-ray-tube composing machines. This was a significant development over Bell Gothic, the typeface originally used for telephone books since 1937 but which became unsuitable with advancing technology.
