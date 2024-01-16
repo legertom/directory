@@ -1092,6 +1092,19 @@ doc.registerFont(
 );
 doc.registerFont("CentAddress", "./fonts/Bell-Centennial-Std-Address_6527.ttf");
 
+doc.registerFont("Title", "./fonts/Knockout-HTF94-UltmtSumo.otf");
+let directoryTitle = "D  i  r  e  c  t  o  r  y"
+directoryTitle = directoryTitle.toUpperCase();
+
+let titleFontSize = 36
+doc.font('Title').fontSize(36)
+let directoryTitleWidth = doc.widthOfString(directoryTitle);
+let leftTitleMargin = (612- directoryTitleWidth)/2;
+
+let topTitleMargin = ((topMargin - titleFontSize)/2);
+
+doc.fillColor('#2133a6').text(directoryTitle, leftTitleMargin, topTitleMargin).fillColor('#000000');
+
 let rowsPerColumn = 68;
 
 for (let i = 0; i < data.length; i++) {
