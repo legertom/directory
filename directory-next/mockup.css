@@ -1,0 +1,23 @@
+.container {
+    perspective: 2000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden; /* Add this if you want to prevent scrollbars */
+  }
+  
+  .directory-mockup {
+    /* Adjust the degree of rotation to simulate the paper lying on a desk */
+    transform: rotateY(10deg) rotateX(-30deg) rotateZ(-2deg) scale(0.8);
+    transform-origin: bottom left;
+    box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
+    /* Adjust margin as necessary */
+    margin: 30px;
+    /* Border can be adjusted or removed as per your design preference */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    opacity: 20%;
+  }
+  
