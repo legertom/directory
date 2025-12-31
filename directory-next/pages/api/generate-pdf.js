@@ -104,12 +104,14 @@ function parseCSV(buffer) {
 function createPDF(data, showWatermark = false, websiteUrl = '') {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({
+      size: [612, 792], // Explicitly set page size (Letter: 8.5" x 11" = 612 x 792 points)
       margins: {
         top: 72,
         bottom: showWatermark ? 50 : 36, // Extra space for watermark
         left: 36,
         right: 36,
       },
+      autoFirstPage: true,
     });
 
     const pdfChunks = [];
@@ -171,6 +173,9 @@ function createPDF(data, showWatermark = false, websiteUrl = '') {
 
     // Draw directory entries
     let rowsPerColumn = 68;
+    
+    // Save the graphics state and ensure we stay on first page
+    doc.save();
 
     for (let i = 0; i < data.length; i++) {
       let columnNumber = Math.floor(i / rowsPerColumn) + 1;
@@ -185,19 +190,21 @@ function createPDF(data, showWatermark = false, websiteUrl = '') {
       let rightText = data[i].rightText || '';
       let xValueLeft = leftMargin + (columnNumber - 1) * (columnWidth + columnGutter);
 
+      // Calculate row position within the column (resets to 0 for each new column)
+      // This ensures column 2 starts at row 0 again, column 3 starts at row 0, etc.
       let rowWithinColumn = i % rowsPerColumn;
       let yValue = firstLineY + rowWithinColumn * lineHeight;
       
-      // Draw left text
+      // Draw left text - using absolute positioning with lineBreak: false
       doc.fillColor("#000000").fontSize(fontSize).font("CentName");
-      doc.text(leftText, xValueLeft, yValue);
+      doc.text(leftText, xValueLeft, yValue, { lineBreak: false, continued: false });
       let leftTextWidth = doc.widthOfString(leftText);
       
       // Draw middle text
       let xValueMiddle = xValueLeft + leftTextWidth + 1;
       doc.font("CentAddress");
       let middleTextWidth = doc.widthOfString(middleText);
-      doc.text(middleText, xValueMiddle, yValue);
+      doc.text(middleText, xValueMiddle, yValue, { lineBreak: false });
 
       // Draw right text with leader dots
       doc.font("CentName");
@@ -220,12 +227,15 @@ function createPDF(data, showWatermark = false, websiteUrl = '') {
         }
 
         let xValueDots = xValueRight - leaderDotsWidth;
-        doc.text(leaderDots, xValueDots, yValue);
-        doc.fillColor("#000000").text(rightText, xValueRight, yValue);
+        doc.text(leaderDots, xValueDots, yValue, { lineBreak: false });
+        doc.fillColor("#000000").text(rightText, xValueRight, yValue, { lineBreak: false });
       } else {
-        doc.text(rightText, xValueRight, yValue).fillColor("#000000");
+        doc.text(rightText, xValueRight, yValue, { lineBreak: false }).fillColor("#000000");
       }
     }
+
+    // Restore graphics state
+    doc.restore();
 
     // Add watermark if free tier
     if (showWatermark && websiteUrl) {
@@ -234,7 +244,7 @@ function createPDF(data, showWatermark = false, websiteUrl = '') {
       const watermarkWidth = doc.widthOfString(watermarkText);
       const watermarkX = (pageWidth - watermarkWidth) / 2;
       const watermarkY = pageHeight - 30;
-      doc.text(watermarkText, watermarkX, watermarkY);
+      doc.text(watermarkText, watermarkX, watermarkY, { lineBreak: false });
     }
 
     doc.end();
